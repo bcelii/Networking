@@ -1,0 +1,31 @@
+#flow that will transmit will favor longer flows, procedure
+#1) will give all bandwidth to flow with largest queue until it is tied 
+#with a for the same legnth
+#2) will keep distributing left over bandwidth between those that are same length
+#until no bandwidth left over
+
+class LongFlow:
+	def __init__(self, bw_per_round):
+		self.title = 'Long Flow'
+		self.round_bw = bw_per_round
+
+	def process_queues(self, sources):
+		return_data = []
+		bandwidth = self.round_bw
+		#redistribute leftover bandwidth if there's an empty flow
+
+		#get the id's of the queues with longest size
+		maxSize = 0
+		difference = 0
+		sizeQueues = []
+		sizeDict = {}
+		x = 0;
+		for src in sources:
+			sizeQueues.append(len(src.queue))
+			sizeDict[src.source_id] = len(src.queue);
+			sizeQueues.sort()
+				
+
+					return_data.append(src.queue.popleft())
+					bandwidth -= 50
+		return return_data
