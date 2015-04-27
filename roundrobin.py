@@ -1,17 +1,19 @@
 #round robin algorithm
 
 class RoundRobin:
-	def __init__(self):
+	def __init__(self, bw_per_round):
 		self.title = 'Round Robin'
-		self.round_bw = 100
+		self.round_bw = bw_per_round
 
 	def process_queues(self, sources):
 		return_data = []
-		for src in sources:
-			bandwidth = self.round_bw
-			while bandwidth > 0 and len(src.queue) > 0:
-				return_data.append(src.queue.popleft())
-				bandwidth -= 50
+		bandwidth = self.round_bw
+		#redistribute leftover bandwidth if there's an empty flow
+		while bandwidth > 0:
+			for src in sources:
+				if len(src.queue) > 0 and bandwidth >= 50:
+					return_data.append(src.queue.popleft())
+					bandwidth -= 50
 		return return_data
 
 
