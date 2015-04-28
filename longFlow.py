@@ -16,58 +16,48 @@ class LongFlow:
 
 		#get the id's of the queues with longest size
 		while bandwidth > 0:
-			maxSize = 0
+			minSize = 0
 			difference = 0
 			sizeQueues = []
 			sizeDict = {}
 			for src in sources:
 				sizeQueues.append(len(src.queue))
-				sizeDict[len(src.queue)] = src
-				
+				sizeDict[src] = len(src.queue)				
 			sizeQueues.sort()
+			minSize = sizeQueues[0]
 			maxSize = sizeQueues[len(sizeQueues)-1]
-			difference = sizeQueues[len(sizeQueues)-1] - sizeQueues[len(sizeQueues)-2]
-			# print sizeQueues
-			# print difference
 
-			# iterates the number of difference between the two longest packet source
-			# if difference > 0:
-			for i in range(difference):
-				if bandwidth > 0:
-					return_data.append(sizeDict[maxSize].queue.popleft())
-					bandwidth -= 50
-					# print "append"
-			# else and then: Round Robin on the highest flow
-			maxSize = 0
-			difference = 0
-			sizeQueues = []
-			sizeDict = {}			
-			for src in sources:
-				sizeQueues.append(len(src.queue))
-				sizeDict[src] = len(src.queue)	
-			sizeQueues.sort()
-			# print sizeQueues
-			maxSize = sizeQueues[len(sizeQueues)-1]
-			# print sizeDict
+			difference = maxSize - minSize 
+			#trying to find shortest distance to loop!
 			for src in sizeDict.keys():
 				if sizeDict[src] < maxSize:
-					# return_data.queue.append(src.queue.popleft())
-					# bandwidth -= 50
-					if sizeDict[src] > difference:
-						difference = sizeDict[src]
-			for i in range(difference):		
-				for src in sizeDict.keys():
-					if sizeDict[src] == maxSize:
-						if bandwidth > 0:
-							return_data.append(src.queue.popleft())
-							bandwidth -= 50
-							# print "append"	
-			# print sizeDict[maxSize]
-			# sizeQueues = []
-			# sizeDict = {}			
-			# for src in sources:
-			# 	sizeQueues.append(len(src.queue))
-			# 	sizeDict[src] = len(src.queue)	
-			# sizeQueues.sort()
-			# print sizeQueues
+					if (maxSize - sizeDict[src]) < difference:
+						difference = maxSize - sizeDict[src]
+			print sizeQueues
+			print difference
+
+			if difference != 0:
+				for i in range(difference):
+					for src in sizeDict.keys():
+						if sizeDict[src] == maxSize:
+							if bandwidth > 0:
+								return_data.append(src.queue.popleft())
+								bandwidth -= 50
+								print "pop"
+			else:
+				for i in range(minSize):
+					for src in sizeDict.keys():
+						if sizeDict[src] == minSize:
+							if bandwidth > 0:
+								return_data.append(src.queue.popleft())
+								bandwidth -= 50
+								print "pop"
+			if (sizeQueues[len(sizeQueues)-1] == 0 and bandwidth > 0):
+				bandwidth = 0
+
+			sizeQueues = []
+			for src in sources:
+				sizeQueues.append(len(src.queue))		
+			sizeQueues.sort()
+			print sizeQueues
 		return return_data
