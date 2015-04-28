@@ -22,9 +22,14 @@ class FirstInFirstOut:
 				if len(src.queue) > 0 and bandwidth >= 50:
 					if (src.queue[0]['arrival_slot'] <= minTimeStamp):		
 						popsrc = src
-						minTimeStamp = src.queue[0]['arrival_slot']
-			return_data.append(popsrc.queue.popleft())
-			bandwidth -= 50
+						# minTimeStamp = src.queue[0]['arrival_slot']
+			# print minTimeStamp
+			if (len(popsrc.queue) > 0 and bandwidth > 0):
+				return_data.append(popsrc.queue.popleft())
+				bandwidth -= 50
+			else:
+				bandwidth -= 50
+
 		return return_data
 
 

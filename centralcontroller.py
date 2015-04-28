@@ -1,5 +1,8 @@
 from packetsources import BurstySource, MediumConsistentSource, HoggingSource, SuperBursty
 from roundrobin import RoundRobin
+from fifo import FirstInFirstOut
+from longFlow import LongFlow
+from shortFlow import ShortFlow
 
 NUM_ITERATIONS = 30
 
@@ -8,7 +11,7 @@ def main():
 	sources = [BurstySource(1), MediumConsistentSource(2), HoggingSource(3), SuperBursty(4)]
 
 	#create algorithm instance
-	alg = RoundRobin(200)
+	alg = FirstInFirstOut(200)
 	total_frame_delay = [0] * len(sources)
 	total_frames_transmitted = [0] * len(sources)
 	#loop for the number of iterations

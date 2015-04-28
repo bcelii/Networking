@@ -20,6 +20,8 @@ class BurstySource(PacketSource):
 				self.queue.append(new_dict)
 		self.counter += 1
 		#print self.queue
+	def peek_left(self):
+		return self.queue[0]
 
 
 #adds a packet every other slot
@@ -34,6 +36,8 @@ class MediumConsistentSource(PacketSource):
 			new_dict['source_id'] = self.source_id
 			self.queue.append(new_dict)
 		self.counter += 1
+	def peek_left(self):
+		return self.queue[0]
 
 class HoggingSource(PacketSource):
 	def __init__(self, id):
@@ -46,6 +50,8 @@ class HoggingSource(PacketSource):
 			new_dict['source_id'] = self.source_id
 			self.queue.append(new_dict)
 		self.counter += 1
+	def peek_left(self):
+		return self.queue[0]
 
 class SuperBursty(PacketSource):
 	def __init__(self, id):
@@ -59,6 +65,8 @@ class SuperBursty(PacketSource):
 				new_dict['source_id'] = self.source_id
 				self.queue.append(new_dict)
 		self.counter += 1
+	def peek_left(self):
+		return self.queue[0]
 
 
 
