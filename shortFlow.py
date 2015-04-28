@@ -46,11 +46,13 @@ class ShortFlow:
 								return_data.append(src.queue.popleft())
 								bandwidth -= 50
 								# print "pop"
-			# sizeQueues = []
-			# for src in sources:
-			# 	sizeQueues.append(len(src.queue))		
-			# sizeQueues.sort()
+
+			sizeQueues = []
+			for src in sources:
+				sizeQueues.append(len(src.queue))		
+			sizeQueues.sort()
+			if sizeQueues[len(sizeQueues)-1] == 0 and bandwidth > 0:
+				bandwidth = 0
 			# print sizeQueues
-			# print distance
-			# bandwidth -= 50
+
 		return return_data
