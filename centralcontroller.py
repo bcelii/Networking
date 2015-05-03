@@ -34,5 +34,11 @@ def main():
 		print frame
 
 
+	#Brendan Testing 4/28
+	#testIndividualDelay(sources,algList)
+
+
 main()
+
+
 

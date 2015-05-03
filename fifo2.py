@@ -28,8 +28,8 @@ class FirstInFirstOut:
 			for src in sources:
 				#wil only service non-empty queues
 				if len(src.queue) > 0:
-					sumQueues += len(sr.queue) #to check later if all the queues are empty
-					if src.queue[0] == minTimeStamp and bandwidth >= 50:
+					sumQueues += len(src.queue) #to check later if all the queues are empty
+					if src.queue[0] == minTimeStamp and bandwidth >= 50: #does the sneding if matches minTime and has alloted bandwidth
 						return_data.append(popsrc.queue.popleft())
 						bandwidth -= 50
 

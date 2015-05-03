@@ -6,7 +6,7 @@
 
 class LongFlow:
 	def __init__(self, bw_per_round):
-		self.title = 'Long Flow'
+		self.title = 'Long_Flow'
 		self.round_bw = bw_per_round
 
 	def process_queues(self, sources):
@@ -33,8 +33,8 @@ class LongFlow:
 				if sizeDict[src] < maxSize:
 					if (maxSize - sizeDict[src]) < difference:
 						difference = maxSize - sizeDict[src]
-			print sizeQueues
-			print difference
+			#print sizeQueues
+			#print difference
 
 			if difference != 0:
 				for i in range(difference):
@@ -43,7 +43,7 @@ class LongFlow:
 							if bandwidth > 0:
 								return_data.append(src.queue.popleft())
 								bandwidth -= 50
-								print "pop"
+								#print "pop"
 			else:
 				for i in range(minSize):
 					for src in sizeDict.keys():
@@ -51,13 +51,13 @@ class LongFlow:
 							if bandwidth > 0:
 								return_data.append(src.queue.popleft())
 								bandwidth -= 50
-								print "pop"
+								#print "pop"
 			if (sizeQueues[len(sizeQueues)-1] == 0 and bandwidth > 0):
 				bandwidth = 0
-
+			#for printing out sizes
 			sizeQueues = []
 			for src in sources:
 				sizeQueues.append(len(src.queue))		
 			sizeQueues.sort()
-			print sizeQueues
+			#print sizeQueues
 		return return_data

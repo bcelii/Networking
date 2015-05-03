@@ -5,11 +5,15 @@ class PacketSource:
 		self.queue = deque()
 		self.source_id = id
 		self.counter = 0
+	def reset(self):
+		self.queue = deque()
+		self.counter = 0
 
 #adds three packets every other slot
 class BurstySource(PacketSource):
 	def __init__(self, id):
 		PacketSource.__init__(self, id)
+		self.title = "BurstySource"
 
 	def add_to_queue(self):
 		if self.counter % 2 == 0:
@@ -20,10 +24,12 @@ class BurstySource(PacketSource):
 				self.queue.append(new_dict)
 		self.counter += 1
 
+
 #adds a packet every other slot
 class MediumConsistentSource(PacketSource):
 	def __init__(self, id):
 		PacketSource.__init__(self, id)
+		self.title = 'MediumConsistentSource'
 
 	def add_to_queue(self):
 		if self.counter % 2 == 0:
@@ -36,6 +42,7 @@ class MediumConsistentSource(PacketSource):
 class HoggingSource(PacketSource):
 	def __init__(self, id):
 		PacketSource.__init__(self, id)
+		self.title = "HoggingSource"
 
 	def add_to_queue(self):
 		for i in range(3):
@@ -48,6 +55,7 @@ class HoggingSource(PacketSource):
 class SuperBursty(PacketSource):
 	def __init__(self, id):
 		PacketSource.__init__(self, id)
+		self.title = "SuperBursty"
 
 	def add_to_queue(self):
 		if self.counter % 3 == 0:
