@@ -20,7 +20,7 @@ constantRun = {
 	2000: [1,1,1,1],
 }
 
-NUM_ITERATIONS = 2
+NUM_ITERATIONS = 30
 sizeOfPackets = 50
 
 highNumber = 5
