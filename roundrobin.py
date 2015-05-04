@@ -18,8 +18,8 @@ class RoundRobin:
 		lastServiceNotEmpty = 0
 		#print bandwidth
 		#redistribute leftover bandwidth if there's an empty flow
-		while bandwidth >=50:
-			totalServiced = 0;
+		while bandwidth >= 50:
+			totalServiced = 0
 			while index<len(sources):
 				if len(sources[index].queue) > 0 and bandwidth >= 50:
 					totalServiced +=1
