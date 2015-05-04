@@ -10,6 +10,9 @@ class LongFlow:
 		self.round_bw = bw_per_round
 
 	def process_queues(self, sources):
+		#for src in sources:
+		#	print src.title + "ID = " + str(src.source_id) + '    size = ' + str(len(src.queue))
+		#	if(s)
 		return_data = []
 		bandwidth = self.round_bw
 		#redistribute leftover bandwidth if there's an empty flow

@@ -5,6 +5,8 @@ class ShortFlow:
 		self.round_bw = bw_per_round
 
 	def process_queues(self, sources):
+		#for src in sources:
+		#	print src.title + "ID = " + str(src.source_id)
 		return_data = []
 		bandwidth = self.round_bw
 		#redistribute leftover bandwidth if there's an empty flow

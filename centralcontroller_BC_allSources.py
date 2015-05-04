@@ -6,8 +6,20 @@ from shortFlow import ShortFlow
 from collections import deque
 import os
 
+constantRun = {
+	50:[9,1,31,27],
+	100:[4/3,1,8.5,7],
+	150: [1,1,1,1,875],
+	200: [1,1,1,1.5],
+	250: [1,1,1,1.375],
+	300: [1,1,1,1.25],
+	350: [1,1,1,1.125],
+	400: [1,1,1,1],
+	450: [1,1,1,1],
+	500: [1,1,1,1],
+}
 
-NUM_ITERATIONS = 2
+NUM_ITERATIONS = 30
 sizeOfPackets = 50
 
 highNumber = 5
@@ -30,7 +42,7 @@ def reset_AllSources(sources):
 
 def main():
 	#change paths to the data folder
-	os.chdir("New_Data")
+	os.chdir("final_Data")
 
 	#create testing environment for different number of sources
 	sourceNames = ['BurstySource','MediumConsistentSource','HoggingSource','SuperBursty'];
@@ -69,6 +81,8 @@ def main():
 	#exit() #breakpoint to see only the different environments printed
 	#have all testing environment --> iterat through all them
 	for test in testEnvironment:
+		#if test != [1,1,5,5]:
+		#	continue
 		#create the different sources
 		
 		#the id number will correspond to what type of source it is 
@@ -101,6 +115,8 @@ def main():
 
 		
 		for alg in algorithmConstructors:
+			#if alg != LongFlow:
+			#	continue
 			
 			filenameEnd = ("_"+ alg(0).title +
 				" Bursty = " + str(test[0]) + 
@@ -138,6 +154,9 @@ def main():
 
 			for band in bandwidth:
 				#do header for the packet delay file:
+				#if band != 400:
+				#	continue 
+
 			
 
 				#ensure timers and queues all reset
@@ -159,6 +178,9 @@ def main():
 				#total_frame_delay = 0
 				#total_frames_transmitted = 0 
 
+				##f_test = open('workingTest', 'w')
+				
+
 				for i in range(NUM_ITERATIONS):
 				
 					add_to_queue_AllSources(sources)
@@ -169,14 +191,25 @@ def main():
 
 					#update statistics passed ont the returned data
 					for d in data:
-						#print "data popped:"
-						#print d
+						#f_test.write( "data popped: \n")
+						#f_test.write(str(d))
 						#print 'd["arrival_slot"] =' + str(d['arrival_slot'])
 
 
 						sources_stats[d['source_id']]['total_frame_delay'] += i -d['arrival_slot'] + 1
 						sources_stats[d['source_id']]['total_frames']+= 1
 						sources_stats[d['source_id']]['total_throughput']+= 1*sizeOfPackets
+
+
+
+
+
+					#f_test.write( 'Iteration '+ str(i))
+					#for ii in range(len(sources_stats)):
+						#f_test.write( sourceNames[ii] + '\n')
+						#f_test.write( 'total_frame_delay = ' + str(sources_stats[ii]['total_frame_delay']) + '\n')
+						#f_test.write( 'total_frames = ' + str(sources_stats[ii]['total_frames']) + '\n')
+						#f_test.write( 'total_throughput = ' + str(sources_stats[ii]['total_throughput']) + '\n')
 					#print "total_frame_delay = " + str(total_frame_delay)
 					#print "total_frames_transmitted = " + str(total_frames_transmitted)
 				
@@ -194,7 +227,7 @@ def main():
 							break
 
 					if allQueuesEmpty == 1:
-							counter +=1
+							
 							#print "Bandwidth = "+ str(band) + " on iteration "+  str(counter) \
 							#+ 'after normal'
 							#print src.queue
@@ -205,10 +238,20 @@ def main():
 								#print "data popped:"
 								#print d
 								#print 'd["arrival_slot"] =' + str(d['arrival_slot'])
+								#f_test.write( "data popped: \n")
+								#f_test.write(str(d))
 
 								sources_stats[d['source_id']]['total_frame_delay'] += counter + NUM_ITERATIONS -d['arrival_slot'] + 1
 								sources_stats[d['source_id']]['total_frames'] += 1
-								#***********throughput is excluded from this calculation because then would 
+
+							#f_test.write( '\nIteration '+ str(counter + NUM_ITERATIONS))
+							#for ii in range(len(sources_stats)):
+								#f_test.write( sourceNames[ii] + '\n')
+								#f_test.write( 'total_frame_delay = ' + str(sources_stats[ii]['total_frame_delay']) + '\n')
+								#f_test.write( 'total_frames = ' + str(sources_stats[ii]['total_frames']) + '\n')
+								#f_test.write( 'total_throughput = ' + str(sources_stats[ii]['total_throughput']) + '\n')
+
+		#***********throughput is excluded from this calculation because then would 
 								#***********always send the same number of packets receivced******
 
 								#sources_stats[d['source_id']].total_frames+= 1
@@ -217,13 +260,19 @@ def main():
 					else:
 						isempty = 1
 
+					counter +=1
+
+
+
+				#get the constants to normalize data with
+				baseDelay = constantRun[band]
 				#end of processing for certian bandwidth
 				f_delay = open('delay' + filenameEnd,'a')
 				f_delay.write("\n")
 				#combine results into string
 				delay_statsString = ""
-				for srcStats in sources_stats:
-					delay_statsString += ","+str(srcStats['total_frame_delay']/srcStats['total_frames'])
+				for yy in range(len(sources_stats)):
+					delay_statsString += ","+str((float(sources_stats[yy]['total_frame_delay'])/sources_stats[yy]['total_frames'])/baseDelay[yy])
 
 				f_delay.write(str(band) + delay_statsString)
 				f_delay.close()
@@ -233,7 +282,7 @@ def main():
 				thr_statsString = ""
 				
 				for jj in range(len(sources_stats)):
-					thr_statsString += "," + str(sources_stats[jj]['total_throughput']/test[jj])
+					thr_statsString += "," + str(float(sources_stats[jj]['total_throughput'])/band)
 				'''	
 				for srcStats in sources_stats:
 					thr_statsString += ","+str(srcStats['total_throughput']/)'''
@@ -244,3 +293,16 @@ def main():
 
 
 main()
+
+'''constantRun = {
+	50:[9,1,31,27],
+	100:[4/3,1,8.5,7],
+	150: [1,1,1,1,875],
+	200: [1,1,1,1.5],
+	250: [1,1,1,1.375],
+	300: [1,1,1,1.25],
+	350: [1,1,1,1.125],
+	400: [1,1,1,1],
+	450: [1,1,1,1],
+	500: [1,1,1,1],
+}'''
