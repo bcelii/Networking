@@ -11,15 +11,16 @@ constantRun = {
 	100:[4/3,1,8.5,7],
 	150: [1,1,1,1,875],
 	200: [1,1,1,1.5],
-	250: [1,1,1,1.375],
 	300: [1,1,1,1.25],
-	350: [1,1,1,1.125],
 	400: [1,1,1,1],
-	450: [1,1,1,1],
 	500: [1,1,1,1],
+	750: [1,1,1,1],
+	1000: [1,1,1,1],
+	1500: [1,1,1,1],
+	2000: [1,1,1,1],
 }
 
-NUM_ITERATIONS = 30
+NUM_ITERATIONS = 2
 sizeOfPackets = 50
 
 highNumber = 5
@@ -148,7 +149,7 @@ def main():
 			
 			
 			#total_frames_transmitted_band = []
-			bandwidth = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+			bandwidth = [50, 100, 150, 200,300, 400, 500, 750, 1000, 1500, 2000]
 
 			#iterate through all bandwidths
 
@@ -272,7 +273,7 @@ def main():
 				#combine results into string
 				delay_statsString = ""
 				for yy in range(len(sources_stats)):
-					delay_statsString += ","+str((float(sources_stats[yy]['total_frame_delay'])/sources_stats[yy]['total_frames'])/baseDelay[yy])
+					delay_statsString += ","+"{0:.2f}".format((float(sources_stats[yy]['total_frame_delay'])/sources_stats[yy]['total_frames'])/baseDelay[yy])
 
 				f_delay.write(str(band) + delay_statsString)
 				f_delay.close()
@@ -282,7 +283,7 @@ def main():
 				thr_statsString = ""
 				
 				for jj in range(len(sources_stats)):
-					thr_statsString += "," + str(float(sources_stats[jj]['total_throughput'])/band)
+					thr_statsString += "," + "{0:.2f}".format(float(sources_stats[jj]['total_throughput'])/(band*NUM_ITERATIONS))
 				'''	
 				for srcStats in sources_stats:
 					thr_statsString += ","+str(srcStats['total_throughput']/)'''

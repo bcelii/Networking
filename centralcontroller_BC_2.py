@@ -9,6 +9,19 @@ import os
 
 NUM_ITERATIONS = 30
 
+constantRun = {
+	50:[9,1,31,27],
+	100:[4/3,1,8.5,7],
+	150: [1,1,1,1,875],
+	200: [1,1,1,1.5],
+	250: [1,1,1,1.375],
+	300: [1,1,1,1.25],
+	350: [1,1,1,1.125],
+	400: [1,1,1,1],
+	450: [1,1,1,1],
+	500: [1,1,1,1],
+}
+
 def main():
 	os.chdir("final_Data")
 	#generate the sources
@@ -16,7 +29,7 @@ def main():
 	sources = [BurstySource(1), MediumConsistentSource(2), HoggingSource(3), SuperBursty(4)]
 	sourceNames = ['BurstySource','MediumConsistentSource','HoggingSource','SuperBursty'];
 	#loop that will generate the algorithms with different alotted bandwidth
-	bandwidthValues = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+	bandwidthValues = [50, 100, 150, 200,300, 400, 500, 750, 1000, 1500, 2000]
 	f = open('noTraffic_Final','w')
 	f.write('Flow, Bandwidth, Delay time\n')
 	f.close()
@@ -103,3 +116,6 @@ def main():
 
 			
 main()	
+
+
+
